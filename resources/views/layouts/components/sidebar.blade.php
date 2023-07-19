@@ -2,9 +2,7 @@
 					<!--begin::Brand-->
 					<div class="brand flex-column-auto" id="kt_brand">
 						<!--begin::Logo-->
-						<a href="/dashboard" class="brand-logo">
-							{{-- <img alt="Logo" src="assets/media/logos/logo-light.png" /> --}}JFM
-						</a>
+						<a href="/dashboard" class="brand-logo"><h3 class="font-weight-bolder">JFM LENDING</h3></a>
 						<!--end::Logo-->
 						<!--begin::Toggle-->
 						<button class="brand-toggle btn btn-sm px-0" id="kt_aside_toggle">
@@ -62,7 +60,7 @@
 									</a>
 									<div class="menu-submenu" style="display: block;">
 										<i class="menu-arrow"></i>
-										<ul class="menu-subnav">
+										<ul class="menu-subnav" style="display: block;">
 											<li class="menu-item menu-item-submenu @if(Route::current()->getName() == 'clients') {{ 'menu-item-active' }} @endif" aria-haspopup="true" data-menu-toggle="hover">
 												<a href="/client/loan-status" class="menu-link">
                           <i class="menu-bullet menu-bullet-line">
