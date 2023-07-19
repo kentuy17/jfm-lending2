@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\CollectionController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,17 +19,27 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::group(['prefix' => 'client'], function() {
+        Route::get('/loan-status', [ClientController::class, 'index'])->name('clients');
+        Route::get('/loans', [ClientController::class, 'getLoans'])->name('loans');
+    });
+
+    Route::get('/collection', [CollectionController::class, 'index'])->name('collection');
+    Route::get('/collections/fetch', [getCollections::class, 'getCollections']);
 });
 
 require __DIR__.'/auth.php';
