@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Collections')
+
 @section('additional-styles')
 <link rel="stylesheet" href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -9,6 +11,12 @@
   }
   td.dt-body-right{
     text-align: right;
+  }
+  th.dt-head-right {
+    text-align: center;
+  }
+  .dataTables_wrapper .dataTable th, .dataTables_wrapper .dataTable td {
+    padding: 0.5rem 0.5rem !important;
   }
 </style>
 @endsection
@@ -26,7 +34,7 @@
           <div class="card-header flex-wrap border-0 pt-6 pb-0">
             <div class="card-title">
               <h3 class="card-label">Daily Collections
-              <span class="d-block text-muted pt-2 font-size-sm">row selection and group actions</span></h3>
+              {{-- <span class="d-block text-muted pt-2 font-size-sm">row selection and group actions</span></h3> --}}
             </div>
             <div class="card-toolbar">
               <!--begin::Dropdown-->
@@ -97,7 +105,7 @@
 
 
               <!--begin::Button-->
-              <a href="#" class="btn btn-primary font-weight-bolder">
+              <a href="javascript:void(0)" id="post-data" class="btn btn-primary font-weight-bolder">
                 <span class="svg-icon svg-icon-md">
                   <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -108,7 +116,7 @@
                     </g>
                   </svg>
                   <!--end::Svg Icon-->
-                </span>New Record
+                </span>Post Data
               </a>
               <!--end::Button-->
             </div>
@@ -121,24 +129,13 @@
                 <div class="col-lg-9 col-xl-8">
                   <div class="row align-items-center">
                     <div class="col-md-4 my-2 my-md-0">
-                      <div class="input-icon">
-                        <input type="text" class="form-control" placeholder="Search..." id="kt_datatable_search_query" />
-                        <span>
-                          <i class="flaticon2-search-1 text-muted"></i>
-                        </span>
-                      </div>
-                    </div>
-                    <div class="col-md-4 my-2 my-md-0">
                       <div class="d-flex align-items-center">
                         <label class="mr-3 mb-0 d-none d-md-block">Status:</label>
                         <select class="form-control" id="kt_datatable_search_status">
                           <option value="">All</option>
-                          <option value="1">Pending</option>
-                          <option value="2">Delivered</option>
-                          <option value="3">Canceled</option>
-                          <option value="4">Success</option>
-                          <option value="5">Info</option>
-                          <option value="6">Danger</option>
+                          <option value="GOOD">ACTIVE</option>
+                          <option value="INACTIVE">INACTIVE</option>
+                          <option value="PENDING">PENDING</option>
                         </select>
                       </div>
                     </div>
@@ -153,14 +150,23 @@
                         </select>
                       </div>
                     </div>
+                    <div class="col-md-4 my-2 my-md-0">
+                      <div class="input-group date">
+                        <input type="text" class="form-control" id="kt_datepicker_3_modal">
+                        <div class="input-group-append">
+                          <span class="input-group-text">
+                            <i class="la la-calendar"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
-                  <a href="#" class="btn font-weight-bolder btn-info" data-toggle="modal" data-target="#kt_datepicker_modal">Options</a>
+                  <a href="#" class="btn btn-info px-6 font-weight-bold">Search</a>
                 </div>
               </div>
             </div>
-            <!--end::Search Form-->
             <!--end: Search Form-->
             <!--begin: Selected Rows Group Action Form-->
             <div class="mt-10 mb-5 collapse" id="kt_datatable_group_action_form">
@@ -195,7 +201,20 @@
             </div>
             <!--end: Selected Rows Group Action Form-->
             <!--begin: Datatable-->
-            <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable"></div>
+            {{-- <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable"></div> --}}
+            {{-- <table class="table table-bordered table-hover table-checkable" id="kt_datatable" style="margin-top: 13px !important"> --}}
+            <table class="table datatable datatable-bordered datatable-head-custom" id="daily-collection-table">
+              <thead>
+                <tr>
+                  <th>Account #</th>
+                  <th>Account Name</th>
+                  <th>Balance</th>
+                  <th>Date Release</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+            </table>
             <!--end: Datatable-->
           </div>
         </div>
@@ -210,8 +229,9 @@
 @endsection
 
 @section('additional-scripts')
-{{-- <script src="{{ asset('js/collection.js') }}" defer></script> --}}
-<script src="{{ asset('assets/js/pages/crud/ktdatatable/advanced/record-selection.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script src="{{ asset('js/collection.js') }}" defer></script>
+{{-- <script src="{{ asset('assets/js/pages/crud/ktdatatable/advanced/record-selection.js') }}"></script> --}}
 <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}" defer></script>
 <script src="{{ asset('assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js') }}" defer></script>
 @endsection

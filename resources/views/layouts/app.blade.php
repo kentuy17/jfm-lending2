@@ -1,24 +1,26 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme-mode="dark">
 	<!--begin::Head-->
 	<head><base href="">
 		<meta charset="utf-8" />
-		<title>LENDING APP | JFM</title>
+		<title>JFM Lending - @yield('title', 'Dashboard')</title>
 		<meta name="description" content="Metronic admin dashboard live demo. Check out all the features of the admin panel. A large number of settings, additional services and widgets." />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-		<!--begin::Fonts-->
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+
+		<!-- Fonts -->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
-		<!--end::Fonts-->
-		<!--begin::Page Vendors Styles(used by this page)-->
+
+		<!-- Page Vendors Styles(used by this page) -->
     @yield('additional-styles')
-		<!--end::Page Vendors Styles-->
-		<!--begin::Global Theme Styles(used by all pages)-->
+
+		<!-- Global Theme Styles(used by all pages) -->
 		<link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
 		<link href="{{ asset('assets/plugins/custom/prismjs/prismjs.bundle.css') }}" rel="stylesheet" type="text/css" />
 		<link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
-		<!--end::Global Theme Styles-->
-		<!--begin::Layout Themes(used by all pages)-->
+
+		<!-- Layout Themes(used by all pages) -->
 		<link href="{{ asset('assets/css/themes/layout/header/base/light.css') }}" rel="stylesheet" type="text/css" />
 		<link href="{{ asset('assets/css/themes/layout/header/menu/light.css') }}" rel="stylesheet" type="text/css" />
 		<link href="{{ asset('assets/css/themes/layout/brand/dark.css') }}" rel="stylesheet" type="text/css" />
@@ -28,14 +30,13 @@
 		<!--end::Layout Themes-->
 		<link rel="shortcut icon" href="{{ asset('assets/media/logos/favicon.ico') }}" />
 	</head>
-	<!--end::Head-->
 	<!--begin::Body-->
 	<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
 		<!--begin::Main-->
 		<!--begin::Header Mobile-->
 		<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
 			<!--begin::Logo-->
-			<a href="index.html">{{-- <img alt="Logo" src="{{ asset('assets/media/logos/logo-light.png') }}" /> --}}JFM LENDING</a>
+			<a href="index.html">JFM LENDING</a>
 			<!--end::Logo-->
 			<!--begin::Toolbar-->
 			<div class="d-flex align-items-center">
@@ -2402,6 +2403,13 @@
 		<script src="{{ asset('assets/plugins/custom/prismjs/prismjs.bundle.js') }}"></script>
 		<script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js" type="text/javascript" ></script>
+    <script>
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+    </script>
 		<!--end::Global Theme Bundle-->
 		<!--begin::Page Vendors(used by this page)-->
     @yield('additional-scripts')

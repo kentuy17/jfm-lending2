@@ -24,7 +24,7 @@ class Clients extends Model
     ];
 
     protected $casts = [
-        'created_at' => 'datetime:M-d H:i:s',
+        'created_at' => 'datetime:M-d-y',
         'updated_at' => 'datetime:M-d H:i:s',
     ];
 
@@ -36,5 +36,10 @@ class Clients extends Model
     public function loan()
     {
         return $this->hasMany(Loan::class, 'client_id', 'id');
+    }
+
+    public function latest_loan()
+    {
+        return $this->loan()->orderBy('id', 'desc');
     }
 }

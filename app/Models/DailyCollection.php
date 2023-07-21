@@ -24,8 +24,8 @@ class DailyCollection extends Model
     ];
 
     protected $casts = [
-        'created_at' => 'datetime:M-d H:i:s',
-        'updated_at' => 'datetime:M-d H:i:s',
+        'created_at' => 'datetime:M-d-y',
+        'updated_at' => 'datetime:M-d-y H:i:s',
     ];
 
     protected function serializeDate(DateTimeInterface $date)

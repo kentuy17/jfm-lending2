@@ -40,6 +40,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/collection', [CollectionController::class, 'index'])->name('collection');
     Route::get('/collections/fetch', [getCollections::class, 'getCollections']);
+    Route::get('/collection/ktdata', [CollectionController::class, 'ktCollections']);
+    Route::post('/collection/posting', [CollectionController::class, 'posting']);
 });
 
 require __DIR__.'/auth.php';

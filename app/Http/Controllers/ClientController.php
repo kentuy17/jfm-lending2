@@ -16,9 +16,10 @@ class ClientController extends Controller
 
     public function getLoans()
     {
-        $clients = Clients::with(['loan' => function($query) {
-                $query->where('status','active')->first();
-            }])
+        $clients = Clients::whereHas('loan', function($query) {
+                $query->whereIn('status',['ONGOING','PAID','PAST DUE']);
+            })
+            ->with('latest_loan')
             ->orderBy('account_name', 'asc')
             ->get();
 
