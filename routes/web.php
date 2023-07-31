@@ -39,9 +39,10 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/collection', [CollectionController::class, 'index'])->name('collection');
-    Route::get('/collections/fetch', [getCollections::class, 'getCollections']);
+    Route::get('/collection/fetch', [CollectionController::class, 'getCollections']);
     Route::get('/collection/ktdata', [CollectionController::class, 'ktCollections']);
     Route::post('/collection/posting', [CollectionController::class, 'posting']);
+    Route::get('/collection/excel', [CollectionController::class, 'getExcelCollection']);
 });
 
 require __DIR__.'/auth.php';

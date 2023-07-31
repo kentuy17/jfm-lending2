@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Loan;
+use App\Models\Collector;
 use DateTimeInterface;
 
 class Clients extends Model
@@ -24,7 +25,7 @@ class Clients extends Model
     ];
 
     protected $casts = [
-        'created_at' => 'datetime:M-d-y',
+        'created_at' => 'datetime:M-d-Y',
         'updated_at' => 'datetime:M-d H:i:s',
     ];
 
@@ -41,5 +42,10 @@ class Clients extends Model
     public function latest_loan()
     {
         return $this->loan()->orderBy('id', 'desc');
+    }
+
+    public function collectors()
+    {
+        return $this->belongsTo(Collector::class, 'collector_id', 'id');
     }
 }

@@ -66,7 +66,7 @@
 									<a href="javascript:;" id="kt_login_forgot" class="text-white font-weight-bold">Forget Password ?</a>
 								</div>
 								<div class="form-group text-center mt-10">
-                  <input type="submit" class="btn btn-pill btn-primary opacity-90 px-15 py-3" value="Sign Ins">
+                  <input type="submit" class="btn btn-pill btn-primary opacity-90 px-15 py-3" value="Sign In">
 								</div>
 							</form>
 							<div class="mt-10">

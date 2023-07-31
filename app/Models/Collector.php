@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Clients;
 
 class Collector extends Model
 {
@@ -15,6 +16,9 @@ class Collector extends Model
         'route',
     ];
 
-
+    public function clients()
+    {
+        return $this->hasMany(Clients::class, 'collector_id', 'id');
+    }
 
 }

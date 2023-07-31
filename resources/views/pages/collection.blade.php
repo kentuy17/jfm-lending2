@@ -5,6 +5,10 @@
 @section('additional-styles')
 <link rel="stylesheet" href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jexcel/2.1.0/css/jquery.jexcel.css" type="text/css" /> --}}
+{{-- <link rel="stylesheet" href="https://bossanova.uk/jspreadsheet/v4/jexcel.css" type="text/css" /> --}}
+{{-- <link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" /> --}}
+
 <style>
   .header-fixed.subheader-fixed.subheader-enabled .wrapper {
     padding-top: 60px !important;
@@ -17,6 +21,9 @@
   }
   .dataTables_wrapper .dataTable th, .dataTables_wrapper .dataTable td {
     padding: 0.5rem 0.5rem !important;
+  }
+  .jexcel_container {
+    display: block !important;
   }
 </style>
 @endsection
@@ -50,12 +57,20 @@
                     </g>
                   </svg>
                   <!--end::Svg Icon-->
-                </span>Export</button>
+                </span>Action</button>
                 <!--begin::Dropdown Menu-->
                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                   <!--begin::Navigation-->
                   <ul class="navi flex-column navi-hover py-2">
-                    <li class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2">Choose an option:</li>
+                    <li class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2">Choose An Action:</li>
+                    <li class="navi-item">
+                      <a href="#" onclick="javascript:showEditor();" class="navi-link">
+                        <span class="navi-icon">
+                          <i class="icon-xl la la-edit"></i>
+                        </span>
+                        <span class="navi-text">Edit</span>
+                      </a>
+                    </li>
                     <li class="navi-item">
                       <a href="#" class="navi-link">
                         <span class="navi-icon">
@@ -67,33 +82,9 @@
                     <li class="navi-item">
                       <a href="#" class="navi-link">
                         <span class="navi-icon">
-                          <i class="la la-copy"></i>
-                        </span>
-                        <span class="navi-text">Copy</span>
-                      </a>
-                    </li>
-                    <li class="navi-item">
-                      <a href="#" class="navi-link">
-                        <span class="navi-icon">
                           <i class="la la-file-excel-o"></i>
                         </span>
-                        <span class="navi-text">Excel</span>
-                      </a>
-                    </li>
-                    <li class="navi-item">
-                      <a href="#" class="navi-link">
-                        <span class="navi-icon">
-                          <i class="la la-file-text-o"></i>
-                        </span>
-                        <span class="navi-text">CSV</span>
-                      </a>
-                    </li>
-                    <li class="navi-item">
-                      <a href="#" class="navi-link">
-                        <span class="navi-icon">
-                          <i class="la la-file-pdf-o"></i>
-                        </span>
-                        <span class="navi-text">PDF</span>
+                        <span class="navi-text">Export</span>
                       </a>
                     </li>
                   </ul>
@@ -102,7 +93,6 @@
                 <!--end::Dropdown Menu-->
               </div>
               <!--end::Dropdown-->
-
 
               <!--begin::Button-->
               <a href="javascript:void(0)" id="post-data" class="btn btn-primary font-weight-bolder">
@@ -141,19 +131,20 @@
                     </div>
                     <div class="col-md-4 my-2 my-md-0">
                       <div class="d-flex align-items-center">
-                        <label class="mr-3 mb-0 d-none d-md-block">Type:</label>
-                        <select class="form-control" id="kt_datatable_search_type">
+                        <label class="mr-3 mb-0 d-none d-md-block">Collector:</label>
+                        <select class="form-control" id="kt_datatable_filter_collector">
                           <option value="">All</option>
-                          <option value="1">Online</option>
-                          <option value="2">Retail</option>
-                          <option value="3">Direct</option>
+                          @foreach ($collectors as $collector)
+                          <option value="{{ $collector->id }}">{{ $collector->name }}</option>
+                          @endforeach
+
                         </select>
                       </div>
                     </div>
                     <div class="col-md-4 my-2 my-md-0">
                       <div class="input-group date">
                         <input type="text" class="form-control" id="kt_datepicker_3_modal">
-                        <div class="input-group-append">
+                        <div class="input-group-append" id="calendar_append">
                           <span class="input-group-text">
                             <i class="la la-calendar"></i>
                           </span>
@@ -163,7 +154,7 @@
                   </div>
                 </div>
                 <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
-                  <a href="#" class="btn btn-info px-6 font-weight-bold">Search</a>
+                  <a href="javascript:void(0);" id="search_data" class="btn btn-info px-6 font-weight-bold">Search</a>
                 </div>
               </div>
             </div>
@@ -201,17 +192,16 @@
             </div>
             <!--end: Selected Rows Group Action Form-->
             <!--begin: Datatable-->
-            {{-- <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable"></div> --}}
-            {{-- <table class="table table-bordered table-hover table-checkable" id="kt_datatable" style="margin-top: 13px !important"> --}}
-            <table class="table datatable datatable-bordered datatable-head-custom" id="daily-collection-table">
+            <table class="table datatable datatable-bordered table-hover datatable-head-custom" id="daily-collection-table">
               <thead>
                 <tr>
-                  <th>Account #</th>
+                  <th>Date</th>
                   <th>Account Name</th>
-                  <th>Balance</th>
                   <th>Date Release</th>
                   <th>Status</th>
-                  <th>Action</th>
+                  <th>Collector</th>
+                  <th>Amount to Pay</th>
+                  <th>Amount Paid</th>
                 </tr>
               </thead>
             </table>
@@ -229,9 +219,35 @@
 @endsection
 
 @section('additional-scripts')
+@vite(['resources/js/excel-collection.js'])
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 <script src="{{ asset('js/collection.js') }}" defer></script>
 {{-- <script src="{{ asset('assets/js/pages/crud/ktdatatable/advanced/record-selection.js') }}"></script> --}}
 <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}" defer></script>
 <script src="{{ asset('assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js') }}" defer></script>
+{{-- <script src="https://bossanova.uk/jspreadsheet/v4/jexcel.js" defer></script> --}}
+{{-- <script src="https://jsuites.net/v4/jsuites.js" defer></script> --}}
+
+<script>
+  async function showEditor() {
+    $('#kt_datatable_modal').modal('show');
+
+    // var data = [
+    //   ['Mazda', 2001, 2000, '2006-01-01'],
+    //   ['Pegeout', 2010, 5000, '2005-01-01'],
+    //   ['Honda Fit', 2009, 3000, '2004-01-01'],
+    //   ['Honda CRV', 2010, 6000, '2003-01-01'],
+
+    // ];
+
+    // var excelTbl = jspreadsheet(document.getElementById('kt_datatable_sub'), {
+    //   data:data,
+    // });
+
+    // // console.log(excelTable);
+    // var jsonData = await excelTbl.getJson();
+    // console.log(jsonData);
+  }
+</script>
 @endsection

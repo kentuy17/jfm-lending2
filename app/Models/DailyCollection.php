@@ -4,13 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Clients;
+use App\Models\Collector;
+use App\Models\Loan;
 use DateTimeInterface;
 
 class DailyCollection extends Model
 {
     use HasFactory;
 
-    protected $table = 'clients';
+    protected $table = 'daily_collections';
     protected $fillable = [
         'loan_id',
         'client_id',
@@ -20,8 +23,12 @@ class DailyCollection extends Model
         'daily_paid',
         'status',
         'remaining_balance',
-        'daily_collections',
+        'collection_date',
+        'created_at',
+        'updated_at',
     ];
+
+    public $timestamps = true;
 
     protected $casts = [
         'created_at' => 'datetime:M-d-y',
@@ -32,4 +39,15 @@ class DailyCollection extends Model
     {
         return $date->timezone('Asia/Singapore')->format('M-d H:i:s');
     }
+
+    public function clients()
+    {
+        return $this->belongsTo(Clients::class, 'client_id', 'id');
+    }
+
+    public function loans()
+    {
+        return $this->belongsTo(Loan::class, 'loan_id', 'id');
+    }
+
 }
