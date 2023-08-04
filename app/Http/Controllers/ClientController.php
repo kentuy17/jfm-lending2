@@ -16,14 +16,12 @@ class ClientController extends Controller
 
     public function getLoans()
     {
-        $clients = Clients::whereHas('loan', function($query) {
-                $query->whereIn('status',['ONGOING','PAID','PAST DUE']);
-            })
+        $clients = Clients::whereHas('loan', function ($query) {
+            $query->whereIn('status', ['ONGOING', 'PAID', 'PAST DUE']);
+        })
             ->with('latest_loan')
             ->orderBy('account_name', 'asc')
             ->get();
-
-        // $clients = Clients::with('loan')->get();
 
         return DataTables::of($clients)
             ->addIndexColumn()
