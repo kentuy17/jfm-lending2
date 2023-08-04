@@ -76,9 +76,22 @@ class CollectionController extends Controller
 
     public function getExcelCollection(Request $request)
     {
-        $collect = DailyCollection::get();
+        if($request->date === null) {
+            $collect = DailyCollection::with('clients','loans')
+                ->where('collection_date', Carbon::now()->format('Y-m-d'))
+                ->get();
+        }
+        else {
+            $date = explode('/', $request->date);
+            $collect = DailyCollection::with('clients','loans')
+                ->where('collection_date', Carbon::createFromDate($date[2], $date[0], $date[1], 'Asia/Singapore')->format('Y-m-d'))
+                ->get();
+        }
+
         return response()->json([
             'data' => $collect,
+            'collection_date' => Carbon::today(),
+            'request_date' => $request->date,
         ]);
     }
 
@@ -168,5 +181,30 @@ class CollectionController extends Controller
             'success' => true,
             'message' => 'Data has been Posted!'
         ), 200);
+    }
+
+    public function updateCollectionItem(Request $request)
+    {
+        try {
+            $item = DailyCollection::find($request->id);
+            $item->daily_paid = $request->amount_paid;
+            $item->status = 'PAID';
+            $item->save();
+
+            $total_paid = DailyCollection::where('loan_id', $item->loan_id)->sum('daily_paid');
+            $loan = Loan::find($item->loan_id);
+            $loan->remaining_balance = $loan->total_payable - $total_paid;
+            $loan->save();
+
+            $item->remaining_balance = $loan->remaining_balance;
+            $item->save();
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+
+        return response()->json(['success' => true], 200);
     }
 }

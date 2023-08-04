@@ -182,6 +182,12 @@ $(function() {
     datatable.column(0).search(moment(postDate).format('YYYY-MM-DD')).draw();
   })
 
+  $('#sumbit_modal').on('click', async function () {
+    $('#kt_datatable_modal').modal('hide');
+    Swal.fire("Success!", "Loan Data Updated!", "success");
+    datatable.ajax.reload();
+  });
+
 })
 
 

@@ -808,7 +808,7 @@
 							<!--begin::Copyright-->
 							<div class="text-dark order-2 order-md-1">
 								<span class="text-muted font-weight-bold mr-2">2023©</span>
-								<a href="https://kentuy17.github.io/" target="_blank" class="text-dark-75 text-hover-primary">Keenthemes</a>
+								<a href="https://kentuy17.github.io/" target="_blank" class="text-dark-75 text-hover-primary">Alrights Reserved</a>
 							</div>
 							<!--end::Copyright-->
 							<!--begin::Nav-->
@@ -848,8 +848,8 @@
 						<i class="symbol-badge bg-success"></i>
 					</div>
 					<div class="d-flex flex-column">
-						<a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">James Jones</a>
-						<div class="text-muted mt-1">Application Developer</div>
+						<a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">{{ Auth::user()->name }}</a>
+						{{-- <div class="text-muted mt-1">Application Developer</div> --}}
 						<div class="navi mt-2">
 							<a href="#" class="navi-item">
 								<span class="navi-link p-0 pb-2">
