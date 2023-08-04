@@ -133,7 +133,7 @@
                       <div class="d-flex align-items-center">
                         <label class="mr-3 mb-0 d-none d-md-block">Collector:</label>
                         <select class="form-control" id="kt_datatable_filter_collector">
-                          <option value="">All</option>
+                          <option value="0">All</option>
                           @foreach ($collectors as $collector)
                           <option value="{{ $collector->id }}">{{ $collector->name }}</option>
                           @endforeach
@@ -232,22 +232,6 @@
 <script>
   async function showEditor() {
     $('#kt_datatable_modal').modal('show');
-
-    // var data = [
-    //   ['Mazda', 2001, 2000, '2006-01-01'],
-    //   ['Pegeout', 2010, 5000, '2005-01-01'],
-    //   ['Honda Fit', 2009, 3000, '2004-01-01'],
-    //   ['Honda CRV', 2010, 6000, '2003-01-01'],
-
-    // ];
-
-    // var excelTbl = jspreadsheet(document.getElementById('kt_datatable_sub'), {
-    //   data:data,
-    // });
-
-    // // console.log(excelTable);
-    // var jsonData = await excelTbl.getJson();
-    // console.log(jsonData);
   }
 </script>
 @endsection

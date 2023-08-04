@@ -42,7 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/collection/fetch', [CollectionController::class, 'getCollections']);
     Route::get('/collection/ktdata', [CollectionController::class, 'ktCollections']);
     Route::post('/collection/posting', [CollectionController::class, 'posting']);
-    Route::get('/collection/excel', [CollectionController::class, 'getExcelCollection']);
+    Route::post('/collection/excel', [CollectionController::class, 'getExcelCollection']);
+    Route::post('/collection/paid', [CollectionController::class, 'updateCollectionItem']);
 });
 
 require __DIR__.'/auth.php';

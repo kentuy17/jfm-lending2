@@ -12,6 +12,18 @@
   td.dt-body-right{
     text-align: right;
   }
+  th.dt-head-right {
+    text-align: center;
+  }
+  th.dt-head-center {
+    text-align: center;
+  }
+  td.dt-body-center {
+    text-align: center;
+  }
+  .dataTables_wrapper .dataTable th, .dataTables_wrapper .dataTable td {
+    padding: 0.5rem 0.5rem !important;
+  }
 </style>
 @endsection
 
@@ -122,7 +134,7 @@
         </div>
         <div class="card-body">
           <!--begin: Datatable-->
-          <table class="table table-bordered table-hover table-checkable" id="kt_datatable" style="margin-top: 13px !important">
+          <table class="table datatable datatable-bordered table-hover datatable-head-custom" id="kt_datatable" style="margin-top: 13px !important">
             <thead>
               <tr>
                 {{-- <th>Account #</th> --}}
@@ -132,6 +144,7 @@
                 <th>Interest</th>
                 <th>Total</th>
                 <th>Amount Paid</th>
+                <th>Action</th>
               </tr>
             </thead>
           </table>
@@ -147,6 +160,9 @@
 @endsection
 
 @section('additional-scripts')
+<script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
+<script src="{{ asset('assets/plugins/custom/prismjs/prismjs.bundle.js') }}"></script>
+<script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
 <script src="{{ asset('js/client-loan.js') }}" defer></script>
 <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
 @endsection
