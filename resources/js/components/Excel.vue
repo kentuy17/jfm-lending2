@@ -18,7 +18,8 @@
             <div class="d-flex align-items-center">
               <label class="mr-3 mb-0 d-none d-md-block">Collector:</label>
               <select class="form-control" id="modal_filter_collector" v-model="collector_id">
-                <option v-for="(collector, index) in collectors" v-bind:key="index" :value="index">{{ collector }}</option>
+                <option v-for="(collector, index) in collectors" v-bind:key="index" :value="index">{{ collector }}
+                </option>
               </select>
             </div>
           </div>
@@ -43,7 +44,7 @@
     </div>
   </div>
   <div class="datatable datatable-bordered datatable-head-custom" style='display: block !important;'>
-    <vue-excel-editor v-model="jsondata" enterToSouth="true" >
+    <vue-excel-editor v-model="jsondata" enterToSouth="true">
       <vue-excel-column field="id" invisible="true" readonly="true" />
       <vue-excel-column field="account_name" label="AccountName" type="string" width="215px" readonly="true" />
       <vue-excel-column field="date_release" label="DateReleased" type="date" width="115px" readonly="true" />
@@ -54,7 +55,6 @@
       <vue-excel-column field="daily_paid" label="AmountPaid" type="number" width="160px" :change="onBeforePaid" />
     </vue-excel-editor>
   </div>
-
 </template>
 
 <script>
@@ -74,12 +74,12 @@ export default {
   },
   mounted() {
     axios.post('/collection/excel', {
-        date: this.date,
-        collector_id: this.collector_id,
-        status: this.status,
-      })
+      date: this.date,
+      collector_id: this.collector_id,
+      status: this.status,
+    })
       .then((data) => {
-        console.log(data.data);
+        // console.log(data.data);
         this.jsondata = this.excelData(data.data.data);
       })
 
@@ -114,7 +114,7 @@ export default {
     });
   },
   methods: {
-    excelData(json=[]) {
+    excelData(json = []) {
       let data = []
       for (let i = 0; i < json.length; i++) {
         const element = json[i];
@@ -133,11 +133,11 @@ export default {
     },
 
     onBeforePaid(newVal, oldVal, row) {
-      if(newVal == oldVal) return;
+      if (newVal == oldVal) return;
       axios.post('/collection/paid', {
-          id: row.id,
-          amount_paid: newVal,
-        })
+        id: row.id,
+        amount_paid: newVal,
+      })
         .catch((err) => {
           console.log(err);
         })
@@ -151,9 +151,9 @@ export default {
         collector_id: this.collector_id,
         status: this.status,
       })
-      .then((response) => {
-        this.jsondata = this.excelData(response.data.data)
-      })
+        .then((response) => {
+          this.jsondata = this.excelData(response.data.data)
+        })
 
       return true
     }

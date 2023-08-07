@@ -29,16 +29,6 @@ var KTDatatableRecordSelectionDemo = function () {
 
     // columns definition
     columns: [
-      // {
-      //   field: 'id',
-      //   title: '#',
-      //   sortable: false,
-      //   width: 20,
-      //   selector: {
-      //     class: ''
-      //   },
-      //   textAlign: 'center',
-      // },
       {
         field: 'account_no',
         title: 'Account #',
