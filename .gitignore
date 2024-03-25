@@ -1,4 +1,10 @@
-/node_modules
+node_modules/*
+!node_modules/vue3-excel-editor/
+node_modules/vue3-excel-editor/*
+!node_modules/vue3-excel-editor/src/
+node_modules/vue3-excel-editor/src/*
+!node_modules/vue3-excel-editor/src/VueExcelEditor.vue
+# !node_modules/vue3-excel-editor/src/VueExcelEditor.vue
 /public/hot
 /public/storage
 /public/build
